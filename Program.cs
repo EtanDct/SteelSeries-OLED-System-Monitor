@@ -80,12 +80,12 @@ namespace ApexSystemMonitor
                             // Charge globale du CPU
                             if (sensor.SensorType == SensorType.Load && sensor.Name.Contains("Total"))
                             {
-                                cpuLoadStr = $"{sensor.Value:F0}%";
+                                cpuLoadStr = $"{sensor.Value:00}%";
                             }
                             // Température du CPU
                             if (sensor.SensorType == SensorType.Temperature && (sensor.Name.Contains("Package") || sensor.Name.Contains("Tdie") || sensor.Name.Contains("Core Average")))
                             {
-                                cpuTempStr = $"{sensor.Value:F0}C";
+                                cpuTempStr = $"{sensor.Value:00}°C";
                             }
                         }
                     }
@@ -100,7 +100,7 @@ namespace ApexSystemMonitor
                                 if (currentGpuLoad >= maxGpuLoad)
                                 {
                                     maxGpuLoad = currentGpuLoad;
-                                    gpuLoadStr = $"{maxGpuLoad:F0}%";
+                                    gpuLoadStr = $"{maxGpuLoad:00}%";
                                 }
                             }
                         }
@@ -111,20 +111,20 @@ namespace ApexSystemMonitor
                         {
                             if (sensor.SensorType == SensorType.Load && sensor.Name == "Memory")
                             {
-                                ramUsageStr = $"{sensor.Value:F0}%";
+                                ramUsageStr = $"{sensor.Value:00}%";
                             }
                         }
                     }
                 }
 
                 // Formatage du texte pour l'écran OLED (fusionné sur 2 lignes pour tout voir)
-                string line1 = $"CPU: {cpuLoadStr}  {cpuTempStr}";
-                string line2 = $"GPU: {gpuLoadStr}  RAM: {ramUsageStr}";
+                string line1 = $"CPU:{cpuLoadStr} {cpuTempStr}";
+                string line2 = $"GPU:{gpuLoadStr} RAM:{ramUsageStr}";
 
                 await _gameSense.SendStatsAsync(line1, line2);
 
-                // Attente de 1 seconde (pour les tests)
-                await Task.Delay(1000);
+                // Attente de 5 secondes (pour les tests)
+                await Task.Delay(5000);
             }
 
             // Nettoyage à la fermeture
